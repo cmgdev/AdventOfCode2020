@@ -1100,4 +1100,4 @@ hgt:171cm
 ecl:#ae12d3 hgt:74cm cid:239 hcl:z pid:345439730 iyr:1924 byr:2029 eyr:2031
 
 answer1:226
-answer2:2
+answer2:160
