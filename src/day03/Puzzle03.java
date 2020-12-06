@@ -23,7 +23,7 @@ public class Puzzle03 extends AbstractPuzzle {
 
 	@Override
 	public void solve1() {
-		List<String> inputMap = readFile("//");
+		List<String> inputMap = readFile("//", false);
 		char[][] points = listToMap(inputMap);
 
 		printMap(points);
@@ -80,7 +80,7 @@ public class Puzzle03 extends AbstractPuzzle {
 
 	@Override
 	public void solve2() {
-		List<String> inputMap = readFile("//");
+		List<String> inputMap = readFile("//", false);
 		char[][] points = listToMap(inputMap);
 
 		/*

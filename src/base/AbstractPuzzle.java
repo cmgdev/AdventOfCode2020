@@ -20,14 +20,14 @@ public abstract class AbstractPuzzle {
 	public AbstractPuzzle(boolean isTest, int day) {
 		this.isTest = isTest;
 		this.day = day;
-		this.input = readFile("#");
+		this.input = readFile("#", false);
 	}
 
 	public List<String> readFile() {
-		return readFile("#");
+		return readFile("#", false);
 	}
 
-	public List<String> readFile(String comment) {
+	public List<String> readFile(String comment, boolean includeBlankLines) {
 		String fileName = isTest ? "example.txt" : "input.txt";
 		String dayString = day < 10 ? "0" + day : Integer.toString(day);
 		
@@ -36,7 +36,8 @@ public abstract class AbstractPuzzle {
 		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("day" + dayString + "/" + fileName);
 				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 		) {
-			input = buf.lines().filter(i -> !i.isEmpty() && !i.startsWith(comment)).collect(Collectors.toList());
+			input = buf.lines().filter(i -> !i.startsWith(comment)).collect(Collectors.toList());
+			if (!includeBlankLines) input.removeIf(l -> l.isEmpty());
 			input = setAnswers(input);
 		} catch (Exception e) {
 			System.out.println("Oh shit! " + e);
