@@ -14,15 +14,11 @@ public class Puzzle01 extends AbstractPuzzle {
 	}
 
 	public static void main(String... args) {
-		Puzzle01 puzzle01 = new Puzzle01();
-		puzzle01.solve1();
-		puzzle01.solve2();
+		AbstractPuzzle.solve( new Puzzle01() );
 	}
 
 	@Override
 	public void solve1() {
-		System.out.println("Solving 1...");
-
 		int sumTarget = 2020;
 		int[] nums = getIntArray();
 
@@ -60,8 +56,6 @@ public class Puzzle01 extends AbstractPuzzle {
 
 	@Override
 	public void solve2() {
-		System.out.println("Solving 2...");
-
 		int sumTarget = 2020;
 		int[] nums = getIntArray();
 

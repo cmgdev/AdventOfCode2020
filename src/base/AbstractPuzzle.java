@@ -76,6 +76,13 @@ public abstract class AbstractPuzzle {
 		return input;
 	}
 	
+	public static <P extends AbstractPuzzle> void solve(P puzzle) {
+		System.out.println("Solving 1...");
+		puzzle.solve1();
+		System.out.println("Solving 2...");
+		puzzle.solve2();
+	}
+	
 	public abstract void solve1();
 	public abstract void solve2();
 	
