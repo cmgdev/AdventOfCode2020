@@ -38,7 +38,7 @@ public class Puzzle06 extends AbstractPuzzle {
 					uniqueAnswers.add(c);
 				}
 				sum += uniqueAnswers.size();
-				
+
 				currentGroupAnswers = "";
 			}
 		}
@@ -50,8 +50,32 @@ public class Puzzle06 extends AbstractPuzzle {
 
 	@Override
 	public void solve2() {
-		// TODO Auto-generated method stub
+		List<String> allAnswers = readFile("//", true);
 
+		List<List<Character>> currentAnswerList = new ArrayList<>();
+		int sum = 0;
+
+		for (String answer : allAnswers) {
+			if (!answer.isBlank()) {
+				List<Character> thisAnswer = new ArrayList<>();
+				for (char c : answer.toCharArray()) {
+					thisAnswer.add(c);
+				}
+				currentAnswerList.add(thisAnswer);
+			} else {
+				List<Character> retainedAnswers = currentAnswerList.get(0);
+				for (List<Character> thisAnswer : currentAnswerList) {
+					if (!retainedAnswers.isEmpty()) {
+						retainedAnswers.retainAll(thisAnswer);
+					}
+				}
+				sum += retainedAnswers.size();
+				currentAnswerList.clear();
+			}
+		}
+
+		System.out.println("Sum is: " + sum);
+		System.out.println(sum == getAnswer2());
 	}
 
 }
