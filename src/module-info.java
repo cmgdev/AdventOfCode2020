@@ -1,0 +1,2 @@
+module adventOfCode2020 {
+}
