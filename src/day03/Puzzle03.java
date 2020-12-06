@@ -1,5 +1,6 @@
 package day03;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import base.AbstractPuzzle;
@@ -23,6 +24,29 @@ public class Puzzle03 extends AbstractPuzzle {
 	@Override
 	public void solve1() {
 		List<String> inputMap = readFile("//");
+		char[][] points = listToMap(inputMap);
+
+		printMap(points);
+
+		int slopeY = 1;
+		int slopeX = 3;
+
+		int treesHit = countTreesHitThisSlope(points, slopeY, slopeX);
+
+		System.out.println("Trees Hit: " + treesHit);
+		System.out.println(treesHit == getAnswer1());
+	}
+
+	private void printMap(char[][] points) {
+		for (int r = 0; r < points.length; r++) {
+			for (int c = 0; c < points[r].length; c++) {
+				System.out.print(points[r][c]);
+			}
+			System.out.println();
+		}
+	}
+
+	private char[][] listToMap(List<String> inputMap) {
 		int rows = inputMap.size();
 		int cols = inputMap.get(0).length();
 		char[][] points = new char[rows][cols];
@@ -33,20 +57,15 @@ public class Puzzle03 extends AbstractPuzzle {
 				points[r][c] = thisRow[c];
 			}
 		}
+		return points;
+	}
 
-		for (int r = 0; r < rows; r++) {
-			for (int c = 0; c < cols; c++) {
-				System.out.print(points[r][c]);
-			}
-			System.out.println();
-		}
-
+	private int countTreesHitThisSlope(char[][] points, int slopeY, int slopeX) {
 		int curY = 0;
 		int curX = 0;
-		int slopeY = 1;
-		int slopeX = 3;
 		int treesHit = 0;
-
+		int rows = points.length;
+		int cols = points[0].length;
 		while (curY < rows) {
 			if (points[curY][curX] == TREE) {
 				System.out.println("(" + curY + "," + curX + ") is a tree!");
@@ -56,14 +75,40 @@ public class Puzzle03 extends AbstractPuzzle {
 			curX = (curX + slopeX) % cols;
 		}
 
-		System.out.println("Trees Hit: " + treesHit);
-		System.out.println(treesHit == getAnswer1());
+		return treesHit;
 	}
 
 	@Override
 	public void solve2() {
-		// TODO Auto-generated method stub
+		List<String> inputMap = readFile("//");
+		char[][] points = listToMap(inputMap);
 
+		/*
+		 * 
+    Right 1, down 1.
+    Right 3, down 1. (This is the slope you already checked.)
+    Right 5, down 1.
+    Right 7, down 1.
+    Right 1, down 2.
+		 */
+		int[][] slopes = new int[][] { 
+			new int[] {1, 1},
+			new int[] {1, 3},
+			new int[] {1, 5},
+			new int[] {1, 7},
+			new int[] {2, 1}
+		};
+
+		List<Integer> treesHit = new ArrayList<>();
+		long mult = 1;
+		for (int[] slope : slopes) {
+			int thisSlope = countTreesHitThisSlope(points, slope[0], slope[1]);
+			treesHit.add(thisSlope);
+			mult *= thisSlope;
+		}
+		
+		System.out.println(treesHit + " => " + mult);
+		System.out.println(mult == getAnswer2());
 	}
 
 }
