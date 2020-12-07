@@ -1,6 +1,6 @@
-package base;
+package AdventOfCode2020.base;
 
-import day01.Puzzle01;
+import AdventOfCode2020.day01.Puzzle01;
 
 public class PuzzleRunner {
 

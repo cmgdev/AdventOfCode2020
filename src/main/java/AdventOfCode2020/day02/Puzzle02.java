@@ -1,8 +1,8 @@
-package day02;
+package AdventOfCode2020.day02;
 
 import java.util.List;
 
-import base.AbstractPuzzle;
+import AdventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle02 extends AbstractPuzzle {
 

@@ -1,11 +1,11 @@
-package day06;
+package AdventOfCode2020.day06;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import base.AbstractPuzzle;
+import AdventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle06 extends AbstractPuzzle {
 

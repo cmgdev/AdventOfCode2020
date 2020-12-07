@@ -1,4 +1,4 @@
-package day07;
+package AdventOfCode2020.day07;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import base.AbstractPuzzle;
+import AdventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle07 extends AbstractPuzzle {
 
@@ -93,20 +93,6 @@ public class Puzzle07 extends AbstractPuzzle {
         System.out.println("Total bags: " + count);
         System.out.println(count == getAnswer2());
     }
-
-//    public long countInnerBags(String bag, Map<String, Map<String, Integer>> bags) {
-//        Map<String, Integer> bagContents = bags.get(bag);
-//        if (bagContents.isEmpty()) {
-//            return 1;
-//        }
-//        long count = 0;
-//        for (Map.Entry<String, Integer> innerBag : bagContents.entrySet()) {
-//            Integer thisSize = innerBag.getValue();
-//            long innerBagCount = countInnerBags(innerBag.getKey(), bags);
-//            count += thisSize * innerBagCount;
-//        }
-//        return count;
-//    }
 
     public static void main(String[] args) {
         AbstractPuzzle.solve(new Puzzle07());

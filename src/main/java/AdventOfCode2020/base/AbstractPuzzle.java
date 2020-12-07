@@ -1,4 +1,4 @@
-package base;
+package AdventOfCode2020.base;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;

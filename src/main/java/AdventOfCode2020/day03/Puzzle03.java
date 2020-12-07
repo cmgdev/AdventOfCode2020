@@ -1,9 +1,9 @@
-package day03;
+package AdventOfCode2020.day03;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import base.AbstractPuzzle;
+import AdventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle03 extends AbstractPuzzle {
 
