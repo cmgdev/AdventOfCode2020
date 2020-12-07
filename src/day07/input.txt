@@ -593,3 +593,4 @@ pale gray bags contain 5 dim maroon bags.
 dim tan bags contain 5 clear blue bags, 1 wavy bronze bag.
 plaid bronze bags contain 4 bright coral bags, 1 dotted crimson bag, 1 mirrored black bag.
 answer1:252
+answer2:35487
