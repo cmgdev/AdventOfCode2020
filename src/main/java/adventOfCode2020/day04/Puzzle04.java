@@ -41,7 +41,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return validCount;
 	}
 	
-	private String getFieldValue( String[] passportFields, String field) {
+	protected String getFieldValue( String[] passportFields, String field) {
 		for (String passportField : passportFields) {
 			if (passportField.startsWith(field)) {
 				return passportField.replaceAll(field, "");
@@ -50,7 +50,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return null;
 	}
 
-	private List<String> convertToPassports(List<String> rawPassportData) {
+	protected List<String> convertToPassports(List<String> rawPassportData) {
 		List<String> passports = new ArrayList<>();
 		String currentPassport = "";
 		for( String rawPassport : rawPassportData ) {
@@ -91,7 +91,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return validPassports;
 	}
 	
-	private boolean validBirthYear(String[] passportFields) {
+	protected boolean validBirthYear(String[] passportFields) {
 		String field = "byr:";
 		String fieldValue = getFieldValue(passportFields, field);
 		if (fieldValue != null) {
@@ -108,7 +108,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return false;
 	}
 	
-	private boolean validIssueYear(String[] passportFields) {
+	protected boolean validIssueYear(String[] passportFields) {
 		String field = "iyr:";
 		String fieldValue = getFieldValue(passportFields, field);
 		if (fieldValue != null) {
@@ -125,7 +125,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return false;
 	}
 	
-	private boolean validExpirationYear(String[] passportFields) {
+	protected boolean validExpirationYear(String[] passportFields) {
 		String field = "eyr:";
 		String fieldValue = getFieldValue(passportFields, field);
 		if (fieldValue != null) {
@@ -142,7 +142,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return false;
 	}
 	
-	private boolean validHeight(String[] passportFields) {
+	protected boolean validHeight(String[] passportFields) {
 		String field = "hgt:";
 		String fieldValue = getFieldValue(passportFields, field);
 		if (fieldValue != null) {
@@ -172,7 +172,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return false;
 	}
 	
-	private boolean validHairColor(String[] passportFields) {
+	protected boolean validHairColor(String[] passportFields) {
 		String field = "hcl:";
 		String fieldValue = getFieldValue(passportFields, field);
 		if (fieldValue != null) {
@@ -184,7 +184,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return false;
 	}
 	
-	private boolean validEyeColor(String[] passportFields) {
+	protected boolean validEyeColor(String[] passportFields) {
 		String field = "ecl:";
 		List<String> validEyeColors = Arrays.asList("amb", "blu", "brn", "gry", "grn", "hzl", "oth");
 		String fieldValue = getFieldValue(passportFields, field);
@@ -197,7 +197,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		return false;
 	}
 	
-	private boolean validPassportId(String[] passportFields) {
+	protected boolean validPassportId(String[] passportFields) {
 		String field = "pid:";
 		String fieldValue = getFieldValue(passportFields, field);
 		if (fieldValue != null) {

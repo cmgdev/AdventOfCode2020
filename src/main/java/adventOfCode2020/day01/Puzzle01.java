@@ -44,7 +44,7 @@ public class Puzzle01 extends AbstractPuzzle {
 		return first * second;
 	}
 
-	private int[] getIntArray() {
+	protected int[] getIntArray() {
 		List<String> input = getInput();
 
 		int[] nums = new int[input.size()];

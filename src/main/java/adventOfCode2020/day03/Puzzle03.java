@@ -37,7 +37,7 @@ public class Puzzle03 extends AbstractPuzzle {
 		return treesHit;
 	}
 
-	private void printMap(char[][] points) {
+	protected void printMap(char[][] points) {
 		for (int r = 0; r < points.length; r++) {
 			for (int c = 0; c < points[r].length; c++) {
 				System.out.print(points[r][c]);
@@ -46,7 +46,7 @@ public class Puzzle03 extends AbstractPuzzle {
 		}
 	}
 
-	private char[][] listToMap(List<String> inputMap) {
+	protected char[][] listToMap(List<String> inputMap) {
 		int rows = inputMap.size();
 		int cols = inputMap.get(0).length();
 		char[][] points = new char[rows][cols];
@@ -60,7 +60,7 @@ public class Puzzle03 extends AbstractPuzzle {
 		return points;
 	}
 
-	private int countTreesHitThisSlope(char[][] points, int slopeY, int slopeX) {
+	protected int countTreesHitThisSlope(char[][] points, int slopeY, int slopeX) {
 		int curY = 0;
 		int curX = 0;
 		int treesHit = 0;

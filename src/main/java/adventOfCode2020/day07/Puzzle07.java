@@ -39,7 +39,7 @@ public class Puzzle07 extends AbstractPuzzle {
         return bagsWithTargetBag.size();
     }
 
-    private Map<String, Map<String, Integer>> buildBagMap() {
+    protected Map<String, Map<String, Integer>> buildBagMap() {
         List<String> input = getInput();
         Map<String, Map<String, Integer>> bags = new HashMap<>();
 
@@ -61,7 +61,7 @@ public class Puzzle07 extends AbstractPuzzle {
         return bags;
     }
 
-    private Set<String> getBagsWithTargetBag(Map<String, Map<String, Integer>> bags, String targetBag) {
+    protected Set<String> getBagsWithTargetBag(Map<String, Map<String, Integer>> bags, String targetBag) {
         Set<String> bagsWithTargetBag = new HashSet<>();
         for (Map.Entry<String, Map<String, Integer>> outerBag : bags.entrySet()) {
 

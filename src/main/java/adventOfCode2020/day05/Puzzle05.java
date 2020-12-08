@@ -31,14 +31,14 @@ public class Puzzle05 extends AbstractPuzzle {
 		return highestSeatId;
 	}
 
-	private int getSeatId(Map<String, Integer> allSeatCodes, String seatCode) {
+	protected int getSeatId(Map<String, Integer> allSeatCodes, String seatCode) {
 		String rowCode = seatCode.substring(0, 7);
 		String colCode = seatCode.substring(7);
 		int seatId = (allSeatCodes.get(rowCode) * 8) + allSeatCodes.get(colCode);
 		return seatId;
 	}
 
-	private Map<String, Integer> getAllSeatCodes() {
+	protected Map<String, Integer> getAllSeatCodes() {
 		Map<String, Integer> allSeatCodes = new HashMap<>();
 		for (int i = 0; i < 128; i++) {
 			allSeatCodes.put(getCode(i, 0, 127, "F", "B"), i);
