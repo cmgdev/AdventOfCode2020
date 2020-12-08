@@ -17,8 +17,7 @@ public class Puzzle01 extends AbstractPuzzle {
     }
 
 	@Override
-	public void solve1() {
-	    this.getClass().getName();
+	public Object solve1() {
 		int sumTarget = 2020;
 		int[] nums = getIntArray();
 
@@ -42,6 +41,7 @@ public class Puzzle01 extends AbstractPuzzle {
 		System.out.println(first + " + " + second + " = " + (first + second));
 		System.out.println(first + " * " + second + " = " + (first * second));
 		System.out.println(getExpectedAnswer1() == (first * second));
+		return first * second;
 	}
 
 	private int[] getIntArray() {
@@ -55,7 +55,7 @@ public class Puzzle01 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve2() {
+	public Object solve2() {
 		int sumTarget = 2020;
 		int[] nums = getIntArray();
 
@@ -87,6 +87,7 @@ public class Puzzle01 extends AbstractPuzzle {
 		System.out.println(first + " + " + second + " + " + third + " = " + (first + second + third));
 		System.out.println(first + " * " + second + " * " + third + " = " + (first * second * third));
 		System.out.println(getExpectedAnswer2() == (first * second * third));
+		return first * second * third;
 	}
 
 }

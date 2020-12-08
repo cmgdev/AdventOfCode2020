@@ -20,7 +20,7 @@ public class Puzzle07 extends AbstractPuzzle {
     }
 
     @Override
-    public void solve1() {
+    public Object solve1() {
         Map<String, Map<String, Integer>> bags = buildBagMap();
 
         Set<String> bagsWithTargetBag = getBagsWithTargetBag(bags, TARGET_BAG);
@@ -36,6 +36,7 @@ public class Puzzle07 extends AbstractPuzzle {
 
         System.out.println(bagsWithTargetBag.size());
         System.out.println(bagsWithTargetBag.size() == getExpectedAnswer1());
+        return bagsWithTargetBag.size();
     }
 
     private Map<String, Map<String, Integer>> buildBagMap() {
@@ -72,7 +73,7 @@ public class Puzzle07 extends AbstractPuzzle {
     }
 
     @Override
-    public void solve2() {
+    public Object solve2() {
         Map<String, Map<String, Integer>> bags = buildBagMap();
 
         long count = -1;
@@ -91,6 +92,7 @@ public class Puzzle07 extends AbstractPuzzle {
 
         System.out.println("Total bags: " + count);
         System.out.println(count == getExpectedAnswer2());
+        return count;
     }
 
     public static void main(String[] args) {

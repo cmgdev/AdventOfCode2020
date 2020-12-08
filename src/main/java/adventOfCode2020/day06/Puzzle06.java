@@ -20,7 +20,7 @@ public class Puzzle06 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve1() {
+	public Object solve1() {
 		List<String> allAnswers = readFile("//", true);
 		List<String> answersByGroup = new ArrayList<>();
 
@@ -44,11 +44,11 @@ public class Puzzle06 extends AbstractPuzzle {
 
 		System.out.println("Sum is: " + sum);
 		System.out.println(sum == getExpectedAnswer1());
-
+		return sum;
 	}
 
 	@Override
-	public void solve2() {
+	public Object solve2() {
 		List<String> allAnswers = readFile("//", true);
 
 		List<List<Character>> currentAnswerList = new ArrayList<>();
@@ -75,6 +75,7 @@ public class Puzzle06 extends AbstractPuzzle {
 
 		System.out.println("Sum is: " + sum);
 		System.out.println(sum == getExpectedAnswer2());
+		return sum;
 	}
 
 }

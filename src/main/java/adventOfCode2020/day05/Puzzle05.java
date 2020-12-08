@@ -16,7 +16,7 @@ public class Puzzle05 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve1() {
+	public Object solve1() {
 		Map<String, Integer> allSeatCodes = getAllSeatCodes();
 		List<String> seatCodes = getInput();
 		int highestSeatId = 0;
@@ -28,6 +28,7 @@ public class Puzzle05 extends AbstractPuzzle {
 
 		System.out.println("Highest Seat Id: " + highestSeatId);
 		System.out.println(highestSeatId == getExpectedAnswer1());
+		return highestSeatId;
 	}
 
 	private int getSeatId(Map<String, Integer> allSeatCodes, String seatCode) {
@@ -61,7 +62,7 @@ public class Puzzle05 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve2() {
+	public Object solve2() {
 		Map<String, Integer> allSeatCodes = getAllSeatCodes();
 		List<String> seatCodes = getInput();
 
@@ -80,6 +81,7 @@ public class Puzzle05 extends AbstractPuzzle {
 		}
 		System.out.println("Your seat: " + yourSeat);
 		System.out.println(yourSeat == getExpectedAnswer2());
+		return yourSeat;
 	}
 
 	public static void main(String[] args) {

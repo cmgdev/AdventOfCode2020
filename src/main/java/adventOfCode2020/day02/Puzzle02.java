@@ -17,7 +17,7 @@ public class Puzzle02 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve1() {
+	public Object solve1() {
 		List<String> passwordInputs = getInput();
 
 		int totalValid = 0;
@@ -45,10 +45,11 @@ public class Puzzle02 extends AbstractPuzzle {
 		}
 		System.out.println("Total valid passwords: " + totalValid);
 		System.out.println(totalValid == getExpectedAnswer1());
+		return totalValid;
 	}
 
 	@Override
-	public void solve2() {
+	public Object solve2() {
 		List<String> passwordInputs = getInput();
 
 		int totalValid = 0;
@@ -70,6 +71,7 @@ public class Puzzle02 extends AbstractPuzzle {
 
 		System.out.println("Total valid passwords: " + totalValid);
 		System.out.println(totalValid == getExpectedAnswer2());
+		return totalValid;
 	}
 
 }

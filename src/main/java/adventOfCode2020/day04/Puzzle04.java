@@ -15,7 +15,7 @@ public class Puzzle04 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve1() {
+	public Object solve1() {
 		List<String> rawPassportData = readFile("//", true);
 		
 		List<String> passports = convertToPassports(rawPassportData);
@@ -38,6 +38,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		
 		System.out.println("Valid passports: " + validCount);
 		System.out.println(validCount == getExpectedAnswer1());
+		return validCount;
 	}
 	
 	private String getFieldValue( String[] passportFields, String field) {
@@ -65,7 +66,7 @@ public class Puzzle04 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve2() {
+	public Object solve2() {
 		List<String> rawPassportData = readFile("//", true);
 		List<String> passports = convertToPassports(rawPassportData);
 
@@ -87,6 +88,7 @@ public class Puzzle04 extends AbstractPuzzle {
 
 		System.out.println("Valid passports: " + validPassports);
 		System.out.println(validPassports == getExpectedAnswer2());
+		return validPassports;
 	}
 	
 	private boolean validBirthYear(String[] passportFields) {

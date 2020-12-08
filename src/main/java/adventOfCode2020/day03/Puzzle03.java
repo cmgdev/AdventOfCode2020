@@ -21,7 +21,7 @@ public class Puzzle03 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve1() {
+	public Object solve1() {
 		List<String> inputMap = readFile("//", false);
 		char[][] points = listToMap(inputMap);
 
@@ -34,6 +34,7 @@ public class Puzzle03 extends AbstractPuzzle {
 
 		System.out.println("Trees Hit: " + treesHit);
 		System.out.println(treesHit == getExpectedAnswer1());
+		return treesHit;
 	}
 
 	private void printMap(char[][] points) {
@@ -78,7 +79,7 @@ public class Puzzle03 extends AbstractPuzzle {
 	}
 
 	@Override
-	public void solve2() {
+	public Object solve2() {
 		List<String> inputMap = readFile("//", false);
 		char[][] points = listToMap(inputMap);
 
@@ -108,6 +109,7 @@ public class Puzzle03 extends AbstractPuzzle {
 		
 		System.out.println(treesHit + " => " + mult);
 		System.out.println(mult == getExpectedAnswer2());
+		return mult;
 	}
 
 }

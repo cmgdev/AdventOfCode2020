@@ -82,8 +82,8 @@ public abstract class AbstractPuzzle {
 		puzzle.solve2();
 	}
 	
-	public abstract void solve1();
-	public abstract void solve2();
+	public abstract Object solve1();
+	public abstract Object solve2();
 	
 	
 }
