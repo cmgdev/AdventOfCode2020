@@ -37,7 +37,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		}
 		
 		System.out.println("Valid passports: " + validCount);
-		System.out.println(validCount == getAnswer1());
+		System.out.println(validCount == getExpectedAnswer1());
 	}
 	
 	private String getFieldValue( String[] passportFields, String field) {
@@ -86,7 +86,7 @@ public class Puzzle04 extends AbstractPuzzle {
 		}
 
 		System.out.println("Valid passports: " + validPassports);
-		System.out.println(validPassports == getAnswer2());
+		System.out.println(validPassports == getExpectedAnswer2());
 	}
 	
 	private boolean validBirthYear(String[] passportFields) {

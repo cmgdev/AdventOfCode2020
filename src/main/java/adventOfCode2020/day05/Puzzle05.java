@@ -27,7 +27,7 @@ public class Puzzle05 extends AbstractPuzzle {
 		}
 
 		System.out.println("Highest Seat Id: " + highestSeatId);
-		System.out.println(highestSeatId == getAnswer1());
+		System.out.println(highestSeatId == getExpectedAnswer1());
 	}
 
 	private int getSeatId(Map<String, Integer> allSeatCodes, String seatCode) {
@@ -79,7 +79,7 @@ public class Puzzle05 extends AbstractPuzzle {
 			}
 		}
 		System.out.println("Your seat: " + yourSeat);
-		System.out.println(yourSeat == getAnswer2());
+		System.out.println(yourSeat == getExpectedAnswer2());
 	}
 
 	public static void main(String[] args) {

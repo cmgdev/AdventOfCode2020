@@ -44,7 +44,7 @@ public class Puzzle02 extends AbstractPuzzle {
 			}
 		}
 		System.out.println("Total valid passwords: " + totalValid);
-		System.out.println(totalValid == getAnswer1());
+		System.out.println(totalValid == getExpectedAnswer1());
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class Puzzle02 extends AbstractPuzzle {
 		}
 
 		System.out.println("Total valid passwords: " + totalValid);
-		System.out.println(totalValid == getAnswer2());
+		System.out.println(totalValid == getExpectedAnswer2());
 	}
 
 }

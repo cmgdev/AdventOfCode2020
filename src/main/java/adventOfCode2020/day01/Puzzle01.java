@@ -41,7 +41,7 @@ public class Puzzle01 extends AbstractPuzzle {
 
 		System.out.println(first + " + " + second + " = " + (first + second));
 		System.out.println(first + " * " + second + " = " + (first * second));
-		System.out.println(getAnswer1() == (first * second));
+		System.out.println(getExpectedAnswer1() == (first * second));
 	}
 
 	private int[] getIntArray() {
@@ -86,7 +86,7 @@ public class Puzzle01 extends AbstractPuzzle {
 
 		System.out.println(first + " + " + second + " + " + third + " = " + (first + second + third));
 		System.out.println(first + " * " + second + " * " + third + " = " + (first * second * third));
-		System.out.println(getAnswer2() == (first * second * third));
+		System.out.println(getExpectedAnswer2() == (first * second * third));
 	}
 
 }

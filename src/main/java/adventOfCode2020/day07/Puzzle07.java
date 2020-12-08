@@ -35,7 +35,7 @@ public class Puzzle07 extends AbstractPuzzle {
         }
 
         System.out.println(bagsWithTargetBag.size());
-        System.out.println(bagsWithTargetBag.size() == getAnswer1());
+        System.out.println(bagsWithTargetBag.size() == getExpectedAnswer1());
     }
 
     private Map<String, Map<String, Integer>> buildBagMap() {
@@ -90,7 +90,7 @@ public class Puzzle07 extends AbstractPuzzle {
         }
 
         System.out.println("Total bags: " + count);
-        System.out.println(count == getAnswer2());
+        System.out.println(count == getExpectedAnswer2());
     }
 
     public static void main(String[] args) {

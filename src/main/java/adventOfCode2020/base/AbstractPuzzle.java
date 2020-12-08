@@ -12,8 +12,8 @@ public abstract class AbstractPuzzle {
 	public static final int ASCII_OFFSET = 48;
 
 	private boolean isTest;
-	private String answer1;
-	private String answer2;
+	private String expectedAnswer1;
+	private String expectedAnswer2;
 	List<String> input = new ArrayList<>();
 
 	public AbstractPuzzle(boolean isTest) {
@@ -47,28 +47,28 @@ public abstract class AbstractPuzzle {
 		for (int i = 0; i < inputs.size(); i++) {
 			String s = inputs.get(i);
 			if (s.startsWith("answer1:")) {
-				answer1 = s.split("answer1:")[1].trim();
+				expectedAnswer1 = s.split("answer1:")[1].trim();
 			} else if (s.startsWith("answer2:")) {
-				answer2 = s.split("answer2:")[1].trim();
+				expectedAnswer2 = s.split("answer2:")[1].trim();
 			}
 		}
 		return inputs.stream().filter(i -> !i.startsWith("answer")).collect(Collectors.toList());
 	}
 
-	public long getAnswer1() {
-		return Long.valueOf(answer1);
+	public long getExpectedAnswer1() {
+		return Long.valueOf(expectedAnswer1);
 	}
 
-	public long getAnswer2() {
-		return Long.valueOf(answer2);
+	public long getExpectedAnswer2() {
+		return Long.valueOf(expectedAnswer2);
 	}
 
-	public String getAnswer1String() {
-		return answer1;
+	public String getExpectedAnswer1String() {
+		return expectedAnswer1;
 	}
 
-	public String getAnswer2String() {
-		return answer2;
+	public String getExpectedAnswer2String() {
+		return expectedAnswer2;
 	}
 	
 	public List<String> getInput() {

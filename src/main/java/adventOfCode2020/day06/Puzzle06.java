@@ -43,7 +43,7 @@ public class Puzzle06 extends AbstractPuzzle {
 		}
 
 		System.out.println("Sum is: " + sum);
-		System.out.println(sum == getAnswer1());
+		System.out.println(sum == getExpectedAnswer1());
 
 	}
 
@@ -74,7 +74,7 @@ public class Puzzle06 extends AbstractPuzzle {
 		}
 
 		System.out.println("Sum is: " + sum);
-		System.out.println(sum == getAnswer2());
+		System.out.println(sum == getExpectedAnswer2());
 	}
 
 }

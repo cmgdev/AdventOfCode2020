@@ -33,7 +33,7 @@ public class Puzzle03 extends AbstractPuzzle {
 		int treesHit = countTreesHitThisSlope(points, slopeY, slopeX);
 
 		System.out.println("Trees Hit: " + treesHit);
-		System.out.println(treesHit == getAnswer1());
+		System.out.println(treesHit == getExpectedAnswer1());
 	}
 
 	private void printMap(char[][] points) {
@@ -107,7 +107,7 @@ public class Puzzle03 extends AbstractPuzzle {
 		}
 		
 		System.out.println(treesHit + " => " + mult);
-		System.out.println(mult == getAnswer2());
+		System.out.println(mult == getExpectedAnswer2());
 	}
 
 }
