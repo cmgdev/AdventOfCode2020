@@ -1,4 +1,4 @@
-package AdventOfCode2020.base;
+package adventOfCode2020.base;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -12,14 +12,12 @@ public abstract class AbstractPuzzle {
 	public static final int ASCII_OFFSET = 48;
 
 	private boolean isTest;
-	private int day;
 	private String answer1;
 	private String answer2;
 	List<String> input = new ArrayList<>();
 
-	public AbstractPuzzle(boolean isTest, int day) {
+	public AbstractPuzzle(boolean isTest) {
 		this.isTest = isTest;
-		this.day = day;
 		this.input = readFile("#", false);
 	}
 
@@ -29,11 +27,11 @@ public abstract class AbstractPuzzle {
 
 	public List<String> readFile(String comment, boolean includeBlankLines) {
 		String fileName = isTest ? "example.txt" : "input.txt";
-		String dayString = day < 10 ? "0" + day : Integer.toString(day);
+		String dir = this.getClass().getPackageName().replace(".", "/");
 		
 		List<String> input = new ArrayList<>();
 
-		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream("day" + dayString + "/" + fileName);
+		try (InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(dir + "/" + fileName);
 				BufferedReader buf = new BufferedReader(new InputStreamReader(is));
 		) {
 			input = buf.lines().filter(i -> !i.startsWith(comment)).collect(Collectors.toList());

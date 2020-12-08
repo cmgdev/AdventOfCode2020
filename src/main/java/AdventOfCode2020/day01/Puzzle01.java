@@ -1,24 +1,24 @@
-package AdventOfCode2020.day01;
+package adventOfCode2020.day01;
 
 import java.util.List;
 
-import AdventOfCode2020.base.AbstractPuzzle;
+import adventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle01 extends AbstractPuzzle {
 
-	public static final boolean IS_TEST = false;
-	public static final int DAY = 1;
+    public static final boolean IS_TEST = false;
 
-	public Puzzle01() {
-		super(IS_TEST, DAY);
-	}
+    public Puzzle01(boolean isTest) {
+        super(isTest);
+    }
 
-	public static void main(String... args) {
-		AbstractPuzzle.solve( new Puzzle01() );
-	}
+    public static void main(String... args) {
+        AbstractPuzzle.solve(new Puzzle01(IS_TEST));
+    }
 
 	@Override
 	public void solve1() {
+	    this.getClass().getName();
 		int sumTarget = 2020;
 		int[] nums = getIntArray();
 

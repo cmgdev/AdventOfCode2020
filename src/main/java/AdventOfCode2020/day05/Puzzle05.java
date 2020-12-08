@@ -1,19 +1,18 @@
-package AdventOfCode2020.day05;
+package adventOfCode2020.day05;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import AdventOfCode2020.base.AbstractPuzzle;
+import adventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle05 extends AbstractPuzzle {
 
 	public static final boolean IS_TEST = false;
-	public static final int DAY = 5;
 
-	public Puzzle05() {
-		super(IS_TEST, DAY);
+	public Puzzle05(boolean isTest) {
+		super(isTest);
 	}
 
 	@Override
@@ -84,7 +83,7 @@ public class Puzzle05 extends AbstractPuzzle {
 	}
 
 	public static void main(String[] args) {
-		AbstractPuzzle.solve(new Puzzle05());
+		AbstractPuzzle.solve(new Puzzle05(IS_TEST));
 	}
 
 }

@@ -1,20 +1,19 @@
-package AdventOfCode2020.day02;
+package adventOfCode2020.day02;
 
 import java.util.List;
 
-import AdventOfCode2020.base.AbstractPuzzle;
+import adventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle02 extends AbstractPuzzle {
 
 	public static final boolean IS_TEST = false;
-	public static final int DAY = 2;
 
-	public Puzzle02() {
-		super(IS_TEST, DAY);
+	public Puzzle02(boolean isTest) {
+		super(isTest);
 	}
 
 	public static void main(String... args) {
-		AbstractPuzzle.solve(new Puzzle02());
+		AbstractPuzzle.solve(new Puzzle02(IS_TEST));
 	}
 
 	@Override
