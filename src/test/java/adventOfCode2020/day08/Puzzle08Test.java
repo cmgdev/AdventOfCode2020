@@ -4,41 +4,47 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import adventOfCode2020.base.AbstractPuzzle;
+
 public class Puzzle08Test {
 
-    Puzzle08 puzzleExampleData = new Puzzle08(true); 
-    Puzzle08 puzzleRealData = new Puzzle08(false); 
-    
+    AbstractPuzzle puzzleExampleData = new Puzzle08(true);
+    AbstractPuzzle puzzleRealData = new Puzzle08(false);
+
     @Test
     public void testSolve1_exampleData() {
-        Object answerObj = puzzleExampleData.solve1();
-        int answer = (Integer) answerObj;
-        long expected = puzzleRealData.getExpectedAnswer1();
-        assertTrue( "Expected " + expected + " but got " + answer, answer == expected );
+        assertSolve1(true);
     }
 
     @Test
     public void testSolve1_realData() {
-        Object answerObj = puzzleRealData.solve1();
+        assertSolve1(false);
+    }
+
+    private void assertSolve1(boolean isExampleData) {
+        AbstractPuzzle puzzle = isExampleData ? puzzleExampleData : puzzleRealData;
+        Object answerObj = puzzle.solve1();
         int answer = (Integer) answerObj;
-        long expected = puzzleRealData.getExpectedAnswer1();
-        assertTrue( "Expected " + expected + " but got " + answer, answer == expected );
+        long expected = puzzle.getExpectedAnswer1();
+        assertTrue("Expected " + expected + " but got " + answer, answer == expected);
+    }
+
+    private void assertSolve2(boolean isExampleData) {
+        AbstractPuzzle puzzle = isExampleData ? puzzleExampleData : puzzleRealData;
+        Object answerObj = puzzle.solve2();
+        int answer = (Integer) answerObj;
+        long expected = puzzle.getExpectedAnswer2();
+        assertTrue("Expected " + expected + " but got " + answer, answer == expected);
     }
 
     @Test
     public void testSolve2_exampleData() {
-        Object answerObj = puzzleExampleData.solve2();
-        int answer = (Integer) answerObj;
-        long expected = puzzleExampleData.getExpectedAnswer2();
-        assertTrue( "Expected " + expected + " but got " + answer, answer == expected );
+        assertSolve2(true);
     }
-    
+
     @Test
     public void testSolve2_realData() {
-        Object answerObj = puzzleRealData.solve2();
-        int answer = (Integer) answerObj;
-        long expected = puzzleRealData.getExpectedAnswer2();
-        assertTrue( "Expected " + expected + " but got " + answer, answer == expected );
+        assertSolve2(false);
     }
 
 }
