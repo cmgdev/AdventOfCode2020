@@ -9,4 +9,4 @@ jmp -4
 acc +6
 
 answer1:5
-answer2:32
+answer2:8

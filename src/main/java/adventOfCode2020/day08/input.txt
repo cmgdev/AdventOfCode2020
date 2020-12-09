@@ -643,4 +643,4 @@ acc +33
 jmp +1
 
 answer1:1446
-answer2:35487
+answer2:1403

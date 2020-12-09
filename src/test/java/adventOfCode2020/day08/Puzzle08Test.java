@@ -28,15 +28,15 @@ public class Puzzle08Test {
     @Test
     public void testSolve2_exampleData() {
         Object answerObj = puzzleExampleData.solve2();
-        long answer = (Long) answerObj;
-        long expected = puzzleRealData.getExpectedAnswer2();
+        int answer = (Integer) answerObj;
+        long expected = puzzleExampleData.getExpectedAnswer2();
         assertTrue( "Expected " + expected + " but got " + answer, answer == expected );
     }
     
     @Test
     public void testSolve2_realData() {
         Object answerObj = puzzleRealData.solve2();
-        long answer = (Long) answerObj;
+        int answer = (Integer) answerObj;
         long expected = puzzleRealData.getExpectedAnswer2();
         assertTrue( "Expected " + expected + " but got " + answer, answer == expected );
     }
