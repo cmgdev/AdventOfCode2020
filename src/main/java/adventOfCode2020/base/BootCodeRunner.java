@@ -1,6 +1,7 @@
 package adventOfCode2020.base;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -44,7 +45,7 @@ public class BootCodeRunner {
         Set<Integer> modifiedLines = new HashSet<>();
 
         public Instructions(List<String> instructions) {
-            this.originalInstructions = instructions;
+            this.originalInstructions = Collections.unmodifiableList(instructions);
             resetInstructions();
         }
 
