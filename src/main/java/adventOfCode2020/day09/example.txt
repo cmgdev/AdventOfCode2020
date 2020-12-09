@@ -19,4 +19,4 @@
 309
 576
 answer1:127
-answer2:8
+answer2:62
