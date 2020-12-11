@@ -10,4 +10,4 @@ L.LLLLLL.L
 L.LLLLL.LL
 
 answer1:37
-answer2:19208
+answer2:26
