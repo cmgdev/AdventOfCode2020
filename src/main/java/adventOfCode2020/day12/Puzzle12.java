@@ -23,9 +23,6 @@ public class Puzzle12 extends AbstractPuzzle {
             char action = instruction.charAt(0);
             int value = Integer.parseInt(instruction.substring(1));
 
-            /*
-             * N S E W L R F
-             */
             if (action == 'N') {
                 row += value;
             } else if (action == 'S') {
@@ -68,7 +65,63 @@ public class Puzzle12 extends AbstractPuzzle {
     @Override
     public Object solve2() {
         List<String> input = getInput();
-        return null;
+        int shipRow = 0;
+        int shipCol = 0;
+        int waypointRow = 1;
+        int waypointCol = 10;
+
+        for (String instruction : input) {
+            char action = instruction.charAt(0);
+            int value = Integer.parseInt(instruction.substring(1));
+            int waypointAngle = 0;
+
+            if (action == 'N') {
+                waypointRow += value;
+            } else if (action == 'S') {
+                waypointRow -= value;
+            } else if (action == 'E') {
+                waypointCol += value;
+            } else if (action == 'W') {
+                waypointCol -= value;
+            } else if (action == 'F') {
+                int rowDiff = waypointRow - shipRow;
+                int colDiff = waypointCol - shipCol;
+                
+                for (int i = 0; i < value; i++) {
+                    shipRow += rowDiff;
+                    waypointRow += rowDiff;
+                    shipCol += colDiff;
+                    waypointCol += colDiff;
+                }
+            } else if (action == 'L') {
+                waypointAngle = value;
+            } else if (action == 'R') {
+                waypointAngle = 360 - value;
+            }
+
+            if (waypointAngle != 0) {
+                double sin = Math.sin(Math.toRadians(waypointAngle));
+                double cos = Math.cos(Math.toRadians(waypointAngle));
+                int rowDiff = waypointRow - shipRow;
+                int colDiff = waypointCol - shipCol;
+
+                // https://en.wikipedia.org/wiki/Rotation_%28mathematics%29#Two_dimensions
+                // x' = xcosθ - ysinθ
+                // y' = xsinθ + ycosθ
+                double newWaypointCol = (colDiff * cos) - (rowDiff * sin);
+                double newWaypointRow = (colDiff * sin) + (rowDiff * cos);
+                waypointCol = (int) (Math.round(newWaypointCol) + shipCol);
+                waypointRow = (int) (Math.round(newWaypointRow) + shipRow);
+            }
+
+            System.out.println("----------------");
+            System.out.println("Instruction: " + instruction );
+            System.out.println("Wypt: Row [" + waypointRow + "] Col [" + waypointCol + "]");
+            System.out.println("Ship: Row [" + shipRow + "] Col [" + shipCol + "]");
+            System.out.println("----------------");
+        }
+
+        return Math.abs(shipRow) + Math.abs(shipCol);
     }
 
 }
