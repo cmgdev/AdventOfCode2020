@@ -86,13 +86,10 @@ public class Puzzle12 extends AbstractPuzzle {
             } else if (action == 'F') {
                 int rowDiff = waypointRow - shipRow;
                 int colDiff = waypointCol - shipCol;
-                
-                for (int i = 0; i < value; i++) {
-                    shipRow += rowDiff;
-                    waypointRow += rowDiff;
-                    shipCol += colDiff;
-                    waypointCol += colDiff;
-                }
+                shipRow += (rowDiff * value);
+                waypointRow += (rowDiff * value);
+                shipCol += (colDiff * value);
+                waypointCol += (colDiff * value);
             } else if (action == 'L') {
                 waypointAngle = value;
             } else if (action == 'R') {
@@ -115,7 +112,7 @@ public class Puzzle12 extends AbstractPuzzle {
             }
 
             System.out.println("----------------");
-            System.out.println("Instruction: " + instruction );
+            System.out.println("Instruction: " + instruction);
             System.out.println("Wypt: Row [" + waypointRow + "] Col [" + waypointCol + "]");
             System.out.println("Ship: Row [" + shipRow + "] Col [" + shipCol + "]");
             System.out.println("----------------");
