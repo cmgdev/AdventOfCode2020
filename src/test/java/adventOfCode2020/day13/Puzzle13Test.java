@@ -1,6 +1,9 @@
 package adventOfCode2020.day13;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+
+import java.math.BigInteger;
 
 import org.junit.Test;
 
@@ -20,7 +23,7 @@ public class Puzzle13Test {
     public void testSolve1_realData() {
         assertSolve1(false);
     }
-    
+
     @Test
     public void testSolve2_exampleData() {
         assertSolve2(true);
@@ -42,9 +45,9 @@ public class Puzzle13Test {
     private void assertSolve2(boolean isExampleData) {
         AbstractPuzzle puzzle = isExampleData ? puzzleExampleData : puzzleRealData;
         Object answerObj = puzzle.solve2();
-        int answer = (Integer) answerObj;
-        long expected = puzzle.getExpectedAnswer2();
-        assertTrue("Expected " + expected + " but got " + answer, answer == expected);
+        BigInteger answer = (BigInteger) answerObj;
+        BigInteger expected = new BigInteger(puzzle.getExpectedAnswer2String());
+        assertEquals(expected, answer);
     }
 
 }
