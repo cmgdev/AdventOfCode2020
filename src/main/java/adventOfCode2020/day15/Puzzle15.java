@@ -1,8 +1,10 @@
 package adventOfCode2020.day15;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import adventOfCode2020.base.AbstractPuzzle;
 
@@ -20,32 +22,51 @@ public class Puzzle15 extends AbstractPuzzle {
             numbers.add(Integer.valueOf(i));
         }
 
-        while (numbers.size() < 2020) {
-            int listSize = numbers.size();
-            int last = numbers.get(listSize - 1);
-            int lastIndex = listSize - 1;
-            for (int i = listSize - 2; i >= 0; i--) {
-                int candidate = numbers.get(i);
-                if (candidate == last) {
-                    lastIndex = i;
-                    break;
-                }
+        return getNthNumber(numbers, 2020);
+    }
+
+    protected Object getNthNumber(List<Integer> numbers, int nth) {
+        Map<Integer, List<Integer>> indexesWhereSeen = new HashMap<>();
+        for (int i = 0; i < numbers.size(); i++) {
+            List<Integer> indexes = new ArrayList<>();
+            indexes.add(i);
+            indexesWhereSeen.put(numbers.get(i), indexes);
+        }
+        
+        int numSeen = numbers.size();
+        int lastSeen = numbers.get(numSeen - 1);
+
+        while (numSeen < nth) {
+            int lastIndex = numSeen - 1;
+            
+            List<Integer> previousIndexes = indexesWhereSeen.getOrDefault(lastSeen, new ArrayList<>());
+            if(previousIndexes.size() == 0) {
+                previousIndexes.add(lastIndex);
+                indexesWhereSeen.put(lastSeen, previousIndexes);
+                lastSeen = 0;
             }
-            if (lastIndex == listSize - 1) {
-                numbers.add(0);
-            } else {
-                numbers.add(listSize - 1 - lastIndex);
+            else {
+                int previousIndex = previousIndexes.get(previousIndexes.size() - 1);
+                previousIndexes.add(lastIndex);
+                indexesWhereSeen.put(lastSeen, previousIndexes);
+                lastSeen = lastIndex - previousIndex;
             }
+            
+            numSeen++;
         }
 
-        return numbers.get(numbers.size() - 1);
+        return lastSeen;
     }
 
     @Override
     public Object solve2() {
-        List<String> input = getInput();
+        String[] input = getInput().get(0).split(",");
+        List<Integer> numbers = new ArrayList<>();
+        for (String i : input) {
+            numbers.add(Integer.valueOf(i));
+        }
 
-        return null;
+        return getNthNumber(numbers, 30000000);
     }
 
 }
