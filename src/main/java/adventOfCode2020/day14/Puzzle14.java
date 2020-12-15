@@ -3,6 +3,9 @@ package adventOfCode2020.day14;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -27,14 +30,8 @@ public class Puzzle14 extends AbstractPuzzle {
                 currentLine++;
                 line = input.get(currentLine);
                 while (line.startsWith("mem")) {
-                    int memAddr = Integer.parseInt(line.substring(line.indexOf("[") + 1, line.indexOf("]")));
-                    String value = Integer.toBinaryString(Integer.parseInt(line.substring(line.indexOf("=") + 1).trim()));
-                    value = StringUtils.leftPad(value, mask.length(), '0');
-                    StringBuilder newValue = new StringBuilder("");
-                    for (int i = 0; i < mask.length(); i++) {
-                        newValue.append(mask.charAt(i) == 'X' ? value.charAt(i) : mask.charAt(i));
-                    }
-                    memory.put(memAddr, newValue.toString());
+                    final String value = StringUtils.leftPad(Integer.toBinaryString(Integer.parseInt(line.substring(line.indexOf("=") + 1).trim())), mask.length(), '0');
+                    memory.put(Integer.parseInt(line.substring(line.indexOf("[") + 1, line.indexOf("]"))), IntStream.range(0, mask.length()).mapToObj(i -> mask.charAt(i) == 'X' ? value.charAt(i) : mask.charAt(i)).collect(Collector.of(StringBuilder::new, StringBuilder::append, StringBuilder::append, StringBuilder::toString)));
                     currentLine++;
                     if (currentLine >= input.size()) {
                         break;
@@ -63,14 +60,10 @@ public class Puzzle14 extends AbstractPuzzle {
                 currentLine++;
                 line = input.get(currentLine);
                 while (line.startsWith("mem")) {
-                    String memAddr = Integer.toBinaryString(Integer.parseInt(line.substring(line.indexOf("[") + 1, line.indexOf("]"))));
-                    memAddr = StringUtils.leftPad(memAddr, mask.length(), '0');
+                    final String memAddr = StringUtils.leftPad(Integer.toBinaryString(Integer.parseInt(line.substring(line.indexOf("[") + 1, line.indexOf("]")))), mask.length(), '0');
                     int value = Integer.parseInt(line.substring(line.indexOf("=") + 1).trim());
 
-                    StringBuilder maskedAddr = new StringBuilder("");
-                    for (int i = 0; i < mask.length(); i++) {
-                        maskedAddr.append(mask.charAt(i) == '0' ? memAddr.charAt(i) : mask.charAt(i));
-                    }
+                    String maskedAddr = IntStream.range(0, mask.length()).mapToObj(i -> mask.charAt(i) == '0' ? memAddr.charAt(i) : mask.charAt(i)).collect(Collector.of(StringBuilder::new, StringBuilder::append, StringBuilder::append, StringBuilder::toString));
 
                     int xcount = StringUtils.countMatches(maskedAddr, 'X');
 
