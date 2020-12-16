@@ -1,10 +1,8 @@
 package adventOfCode2020.day15;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import adventOfCode2020.base.AbstractPuzzle;
 
@@ -26,33 +24,19 @@ public class Puzzle15 extends AbstractPuzzle {
     }
 
     protected Object getNthNumber(List<Integer> numbers, int nth) {
-        Map<Integer, List<Integer>> indexesWhereSeen = new HashMap<>();
+        int[] indexesWhereSeen = new int[nth];
+        Arrays.fill(indexesWhereSeen, -1);
         for (int i = 0; i < numbers.size(); i++) {
-            List<Integer> indexes = new ArrayList<>();
-            indexes.add(i);
-            indexesWhereSeen.put(numbers.get(i), indexes);
+            indexesWhereSeen[numbers.get(i)] = i;
         }
-        
-        int numSeen = numbers.size();
-        int lastSeen = numbers.get(numSeen - 1);
 
-        while (numSeen < nth) {
+        int lastSeen = numbers.get(numbers.size() - 1);
+
+        for (int numSeen = numbers.size(); numSeen < nth; numSeen++) {
             int lastIndex = numSeen - 1;
-            
-            List<Integer> previousIndexes = indexesWhereSeen.getOrDefault(lastSeen, new ArrayList<>());
-            if(previousIndexes.size() == 0) {
-                previousIndexes.add(lastIndex);
-                indexesWhereSeen.put(lastSeen, previousIndexes);
-                lastSeen = 0;
-            }
-            else {
-                int previousIndex = previousIndexes.get(previousIndexes.size() - 1);
-                previousIndexes.add(lastIndex);
-                indexesWhereSeen.put(lastSeen, previousIndexes);
-                lastSeen = lastIndex - previousIndex;
-            }
-            
-            numSeen++;
+            int previousIndex = indexesWhereSeen[lastSeen];
+            indexesWhereSeen[lastSeen] = lastIndex;
+            lastSeen = previousIndex == -1 ? 0 : lastIndex - previousIndex;
         }
 
         return lastSeen;
