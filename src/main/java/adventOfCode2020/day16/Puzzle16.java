@@ -98,7 +98,6 @@ public class Puzzle16 extends AbstractPuzzle {
             for (int i = 0; i < numFields; i++) {
                 for (Map.Entry<String, List<int[]>> fieldRule : fieldRules.entrySet()) {
                     List<Integer> applicableIndexes = rulesByIndex.get(fieldRule.getKey());
-                    removeSingleIndexFromOthers(rulesByIndex, fieldRule, applicableIndexes);
                     if (applicableIndexes.size() > 1) {
                         boolean ruleMatches = false;
                         for (int[] rule : fieldRule.getValue()) {
@@ -117,16 +116,37 @@ public class Puzzle16 extends AbstractPuzzle {
                         }
                     }
                 }
-                for (Map.Entry<String, List<int[]>> fieldRule : fieldRules.entrySet()) {
-                    List<Integer> applicableIndexes = rulesByIndex.get(fieldRule.getKey());
-                    removeSingleIndexFromOthers(rulesByIndex, fieldRule, applicableIndexes);
-                }
+
+                long singlesAtStart = 0;
+                long singlesAtEnd = singlesAtStart + 1;
+                do {
+                    singlesAtStart = rulesByIndex.entrySet().stream().filter(e -> e.getValue().size() == 1).count();
+                    for (Map.Entry<String, List<int[]>> fieldRule : fieldRules.entrySet()) {
+                        List<Integer> applicableIndexes = rulesByIndex.get(fieldRule.getKey());
+                        removeSingleIndexFromOthers(rulesByIndex, fieldRule, applicableIndexes);
+                    }
+                    singlesAtEnd = rulesByIndex.entrySet().stream().filter(e -> e.getValue().size() == 1).count();
+                } while (singlesAtStart < singlesAtEnd);
             }
         }
-        
-        System.out.println(rulesByIndex);
 
-        long myDeparture = 0;
+        System.out.println(rulesByIndex);
+        String yourTicket = "";
+        for (int i = 0; i < inputs.size(); i++) {
+            if (inputs.get(i).startsWith("your ticket")) {
+                yourTicket = inputs.get(i + 1);
+                break;
+            }
+        }
+
+        long myDeparture = 1;
+        String[] ticketBits = yourTicket.split(",");
+        for (Map.Entry<String, List<Integer>> ruleIndex : rulesByIndex.entrySet()) {
+            if (ruleIndex.getKey().startsWith("departure")) {
+                myDeparture *= Long.parseLong(ticketBits[ruleIndex.getValue().get(0)]);
+            }
+        }
+
         return myDeparture;
     }
 
@@ -134,7 +154,7 @@ public class Puzzle16 extends AbstractPuzzle {
         if (applicableIndexes.size() == 1) {
             final int thisId = applicableIndexes.get(0);
             for (Map.Entry<String, List<Integer>> ruleByIndex : rulesByIndex.entrySet()) {
-                if (!ruleByIndex.getKey().equals(fieldRule.getKey())) {
+                if (!ruleByIndex.getKey().equals(fieldRule.getKey()) && ruleByIndex.getValue().size() > 1) {
                     int id = ruleByIndex.getValue().indexOf(thisId);
                     if (id > -1) {
                         System.out.println("removing " + thisId + " from " + ruleByIndex.getValue());

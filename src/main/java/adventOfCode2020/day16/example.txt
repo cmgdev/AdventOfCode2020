@@ -12,4 +12,4 @@ nearby tickets:
 38,6,12
 
 answer1:71
-answer2:0
+answer2:1
