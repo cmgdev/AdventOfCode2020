@@ -42,7 +42,7 @@ public class Puzzle16Test {
     private void assertSolve2(boolean isExampleData) {
         AbstractPuzzle puzzle = isExampleData ? puzzleExampleData : puzzleRealData;
         Object answerObj = puzzle.solve2();
-        int answer = (Integer) answerObj;
+        long answer = (Long) answerObj;
         long expected = puzzle.getExpectedAnswer2();
         assertTrue("Expected " + expected + " but got " + answer, answer == expected);
     }

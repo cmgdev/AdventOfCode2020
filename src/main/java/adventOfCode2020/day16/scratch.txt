@@ -1,0 +1,51 @@
+arrival location=[1, 2, 4, 8, 10, 14, 18]
+arrival platform=[0, 1, 2, 3, 4, 5, 8, 9, 10, 13, 14, 18]
+arrival station=[16]
+arrival track=[19]
+class=[1, 2, 3, 4, 5, 8, 9, 10, 13, 14, 18]
+departure date=[17]
+departure location=[10]
+departure platform=[4]
+departure time=[15]
+departure track=[14]
+departure station=[18]
+duration=[12]
+price=[1, 2, 4, 10, 14, 18]
+route=[11]
+row=[1, 2, 4, 8, 9, 10, 14, 18]
+seat=[1, 2, 3, 4, 5, 8, 9, 10, 14, 18]
+train=[6]
+type=[1, 4, 10, 14, 18]
+wagon=[1, 2, 3, 4, 8, 9, 10, 14, 18]
+zone=[7]
+
+
+
+
+
+departure date=[17]                 83
+departure location=[10]             89
+departure platform=[4]             113
+departure time=[15]                199
+departure track=[14]               163
+departure station=[18]             137                  3709435214239
+0 223
+1 139
+2 211
+3 131
+4 113
+5 197
+6 151
+7 193
+8 127
+9 53
+10 89
+11 167
+12 227
+13 79
+14 163
+15 199
+16 191
+17 83
+18 137
+19 149
