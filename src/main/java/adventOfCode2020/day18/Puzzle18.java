@@ -44,7 +44,12 @@ public class Puzzle18 extends AbstractPuzzle {
             String operand = queue.removeFirst();
             long second = Long.parseLong(queue.removeFirst());
             if (operand.equals("*")) {
-                queue.addFirst(String.valueOf(first * second));
+                if (advanced) {
+                    queue.addFirst(String.valueOf(second));
+                    queue.addFirst(String.valueOf(first * doMath(queue, advanced)));
+                } else {
+                    queue.addFirst(String.valueOf(first * second));
+                }
             } else if (operand.equals("+")) {
                 queue.addFirst(String.valueOf(first + second));
             }
