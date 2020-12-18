@@ -13,6 +13,10 @@ public class Puzzle18 extends AbstractPuzzle {
 
     @Override
     public Object solve1() {
+        return doMath(false);
+    }
+
+    protected long doMath(boolean advanced) {
         List<String> inputs = getInput();
         long total = 0;
         for (String input : inputs) {
@@ -26,36 +30,14 @@ public class Puzzle18 extends AbstractPuzzle {
                 }
             }
 
-            total += doMath(queue);
-
+            total += doMath(queue, advanced);
         }
-
         return total;
     }
 
-    protected long doMath(LinkedList<String> queue) {
+    protected long doMath(LinkedList<String> queue, boolean advanced) {
 //        System.out.println("Queue at start: " + queue);
-        for (int i = 0; i < queue.size(); i++) {
-            int parens = 0;
-            if (queue.get(i).equals("(")) {
-                int startIndex = i;
-                parens++;
-                while (parens > 0) {
-                    i++;
-                    if (queue.get(i).equals("(")) {
-                        parens++;
-                    } else if (queue.get(i).equals(")")) {
-                        parens--;
-                    }
-                }
-                int endIndex = i;
-                LinkedList<String> innerQueue = new LinkedList<>(queue.subList(startIndex + 1, endIndex));
-                long innerQueueResult = doMath(innerQueue);
-                queue.subList(startIndex, endIndex + 1).clear();
-                queue.add(startIndex, String.valueOf(innerQueueResult));
-                i = 0;
-            }
-        }
+        doParenthesis(queue, advanced);
 
         while (queue.size() > 1) {
             long first = Long.parseLong(queue.removeFirst());
@@ -71,10 +53,33 @@ public class Puzzle18 extends AbstractPuzzle {
         return Long.parseLong(queue.removeFirst());
     }
 
+    protected void doParenthesis(LinkedList<String> queue, boolean advanced) {
+        for (int i = 0; i < queue.size(); i++) {
+            int parens = 0;
+            if (queue.get(i).equals("(")) {
+                int startIndex = i;
+                parens++;
+                while (parens > 0) {
+                    i++;
+                    if (queue.get(i).equals("(")) {
+                        parens++;
+                    } else if (queue.get(i).equals(")")) {
+                        parens--;
+                    }
+                }
+                int endIndex = i;
+                LinkedList<String> innerQueue = new LinkedList<>(queue.subList(startIndex + 1, endIndex));
+                long innerQueueResult = doMath(innerQueue, advanced);
+                queue.subList(startIndex, endIndex + 1).clear();
+                queue.add(startIndex, String.valueOf(innerQueueResult));
+                i = 0;
+            }
+        }
+    }
+
     @Override
     public Object solve2() {
-        List<String> input = getInput();
-        return null;
+        return doMath(true);
     }
 
 }
