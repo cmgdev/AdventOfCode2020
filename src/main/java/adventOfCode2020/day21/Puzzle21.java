@@ -1,6 +1,7 @@
 package adventOfCode2020.day21;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -11,12 +12,25 @@ import adventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle21 extends AbstractPuzzle {
 
+    long answer1;
+
     public Puzzle21(boolean isTest) {
         super(isTest);
+        solvePuzzle();
     }
 
     @Override
     public Object solve1() {
+        return answer1;
+    }
+
+    @Override
+    public Object solve2() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public void solvePuzzle() {
         List<String> inputs = getInput();
 
         Map<String, List<Set<String>>> allergensToRecipes = new HashMap<>();
@@ -47,24 +61,18 @@ public class Puzzle21 extends AbstractPuzzle {
                 potentialIngrediants.retainAll(ingrediants);
             }
             potentialAllergens.addAll(potentialIngrediants);
+            allergensToRecipes.put(allergenRecipes.getKey(), Arrays.asList(potentialIngrediants));
         }
 
-        long eliminatedCount = 0;
+        answer1 = 0;
         for (Set<String> orig : distinctIngrediantSets) {
             for (String ingr : orig) {
                 if (!potentialAllergens.contains(ingr)) {
-                    eliminatedCount++;
+                    answer1++;
                 }
             }
         }
-
-        return eliminatedCount;
+        
+        System.out.println(allergensToRecipes);
     }
-
-    @Override
-    public Object solve2() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }

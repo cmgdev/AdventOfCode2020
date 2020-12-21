@@ -1,0 +1,11 @@
+dairy=[[nfnfk]]
+eggs=[[nbgklf]]
+fish=[[clvr]]
+nuts=[[fttbhdr]]
+peanuts=[[qjxxpr]]
+sesame=[[hdsm]]
+soy=[[sjhds]]
+wheat=[[xchzh]]
+
+
+nfnfk,nbgklf,clvr,fttbhdr,qjxxpr,hdsm,sjhds,xchzh
