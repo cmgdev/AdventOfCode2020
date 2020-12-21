@@ -85,20 +85,28 @@ public class Puzzle20 extends AbstractPuzzle {
         int row = 0;
         int col = 0;
 
-        int processedTiles = 1;
         Tile current = getById(tiles, cornerIds.get(0));
         fullImage[row][col] = current.id;
 
         List<Tile> neighbors = current.neighbors.stream().map(n -> getById(tiles, n)).collect(Collectors.toList());
-        Tile neighbor = neighbors.get(0);
-        for (int i = 0; i < 4; i++) {
-            String currentEdge = current.getEdges().get(i);
-            if (neighbor.getEdges().contains(currentEdge)) {
-                current.quarterTurns = i;
-                neighbor.quarterTurns = (neighbor.getEdges().indexOf(currentEdge) + 1) % 4;
-                fullImage[row][col + 1] = neighbor.id;
-                processedTiles++;
-                break;
+        List<Integer> edgeIndexes = new ArrayList<>();
+        for (int n = 0; n < neighbors.size(); n++) {
+            Tile neighbor = neighbors.get(n);
+            for (int i = 0; i < 4; i++) {
+                String currentEdge = current.getEdges().get(i);
+                if (neighbor.getEdges().contains(currentEdge)) {
+                    edgeIndexes.add(i);
+                    break;
+                }
+            }
+        }
+
+        int rotationsNeeded = 0;
+        List<Integer> neededIndexes = Arrays.asList(1, 2);
+        while (!edgeIndexes.containsAll(neededIndexes)) {
+            rotationsNeeded++;
+            for (int i = 0; i < edgeIndexes.size(); i++) {
+                edgeIndexes.set(i, edgeIndexes.get(i) + 1);
             }
         }
 
@@ -168,6 +176,17 @@ public class Puzzle20 extends AbstractPuzzle {
 
         List<String> getFlippedEdges() {
             return getEdges().stream().map(e -> StringUtils.reverse(e)).collect(Collectors.toList());
+        }
+        
+        void rotate(int times) {
+            char[][] rotated = image;
+            for(int t = 0; t < times; t++) {
+                for( int r = 0; r < image.length; r++) {
+                    for( int c = 0; c < image[r].length; c++) {
+                        
+                    }
+                }
+            }
         }
 
         @Override
