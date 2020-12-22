@@ -15,6 +15,11 @@ import adventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle20 extends AbstractPuzzle {
 
+    public static final int TOP = 0;
+    public static final int RIGHT = 1;
+    public static final int BOTTOM = 2;
+    public static final int LEFT = 3;
+
     public Puzzle20(boolean isTest) {
         super(isTest);
     }
@@ -85,16 +90,19 @@ public class Puzzle20 extends AbstractPuzzle {
         int row = 0;
         int col = 0;
 
+        // orient top left tile
         Tile current = getById(tiles, cornerIds.get(0));
         fullImage[row][col] = current.id;
 
-        List<Tile> neighbors = current.neighbors.stream().map(n -> getById(tiles, n)).collect(Collectors.toList());
+        List<Tile> neighbors = getNeighborTiles(tiles, current);
         List<Integer> edgeIndexes = new ArrayList<>();
+        List<String> currentEdges = current.getEdges();
         for (int n = 0; n < neighbors.size(); n++) {
             Tile neighbor = neighbors.get(n);
             for (int i = 0; i < 4; i++) {
-                String currentEdge = current.getEdges().get(i);
-                if (neighbor.getEdges().contains(currentEdge)) {
+                String currentEdge = currentEdges.get(i);
+                List<String> neighborEdges = neighbor.getEdges();
+                if (neighborEdges.contains(currentEdge)) {
                     edgeIndexes.add(i);
                     break;
                 }
@@ -102,7 +110,7 @@ public class Puzzle20 extends AbstractPuzzle {
         }
 
         int rotationsNeeded = 0;
-        List<Integer> neededIndexes = Arrays.asList(1, 2);
+        List<Integer> neededIndexes = Arrays.asList(RIGHT, BOTTOM);
         while (!edgeIndexes.containsAll(neededIndexes)) {
             rotationsNeeded++;
             for (int i = 0; i < edgeIndexes.size(); i++) {
@@ -110,10 +118,90 @@ public class Puzzle20 extends AbstractPuzzle {
             }
         }
 
+        current.rotate(rotationsNeeded);
+
+        boolean moreTiles = true;
+        while (moreTiles) {
+            // get and orient tiles in this row going right
+            doRow(tiles, cornerIds, fullImage, row, current);
+
+            row++;
+            // find the start of the next row
+            Tile leftNextRow = findAndOrientNextTile(tiles, current, BOTTOM);
+            if (leftNextRow == null) {
+                moreTiles = false;
+            } else {
+                fullImage[row][0] = leftNextRow.id;
+                current = leftNextRow;
+            }
+        }
+
         printTilesWithEdges(fullImage, tiles);
+
+        // get map without edges and ids
+        List<String> map = getMap(fullImage, tiles);
+        for (String m : map) {
+            System.out.println(m);
+        }
 
         int seaRoughness = 0;
         return seaRoughness;
+    }
+
+    protected void doRow(List<Tile> tiles, List<Integer> cornerIds, int[][] fullImage, int row, Tile start) {
+        int col = 0;
+        List<Tile> neighbors = getNeighborTiles(tiles, start);
+        Tile rightNeighbor = neighbors.get(0);
+        Tile current = start;
+        do {
+            rightNeighbor = findAndOrientNextTile(tiles, current, RIGHT);
+            col++;
+            if (rightNeighbor != null) {
+                fullImage[row][col] = rightNeighbor.id;
+                current = rightNeighbor;
+            }
+        } while (rightNeighbor != null);
+    }
+
+    protected Tile findAndOrientNextTile(List<Tile> tiles, Tile current, int direction) {
+        List<Tile> neighbors = getNeighborTiles(tiles, current);
+        Tile candidate = null;
+        String rightEdge = current.getEdges().get(direction);
+        for (Tile neighbor : neighbors) {
+            int idx = neighbor.getEdges().indexOf(rightEdge);
+            if (idx == -1) {
+                idx = neighbor.getFlippedEdges().indexOf(rightEdge);
+                if (idx == -1) {
+                    continue;
+                } else {
+                    candidate = neighbor;
+                    break;
+                }
+            } else {
+                candidate = neighbor;
+            }
+        }
+
+        if (candidate != null) {
+            int idx = candidate.getEdges().indexOf(rightEdge);
+            int oppositeIdx = (direction + 2) % 4;
+            while (idx != oppositeIdx) {
+                if (idx == -1) {
+                    if (rightEdge.equals(StringUtils.reverse(candidate.getEdges().get(oppositeIdx)))) {
+                        candidate.flip(false);
+                        idx = candidate.getEdges().indexOf(rightEdge);
+                        continue;
+                    }
+                }
+                candidate.rotate(1);
+                idx = candidate.getEdges().indexOf(rightEdge);
+            }
+        }
+        return candidate;
+    }
+
+    protected List<Tile> getNeighborTiles(List<Tile> tiles, Tile current) {
+        return current.neighbors.stream().map(n -> getById(tiles, n)).collect(Collectors.toList());
     }
 
     protected void printTilesWithEdges(int[][] tileIds, List<Tile> tiles) {
@@ -136,16 +224,38 @@ public class Puzzle20 extends AbstractPuzzle {
         }
     }
 
+    protected List<String> getMap(int[][] tileIds, List<Tile> tiles) {
+        List<String> fullMap = new ArrayList<>();
+
+        int tileHeight = tiles.get(0).image.length;
+        for (int r = 0; r < tileIds.length; r++) {
+            if (tileIds[r] != null) {
+                int[] row = tileIds[r];
+                List<Tile> thisRow = IntStream.range(0, row.length).filter(col -> row[col] > 0).mapToObj(col -> getById(tiles, row[col])).collect(Collectors.toList());
+                for (int i = 1; i < tileHeight - 1; i++) {
+                    StringBuilder rowString = new StringBuilder();
+                    for (Tile t : thisRow) {
+                        String s = new String(t.image[i]);
+                        rowString.append(s.substring(1, s.length() - 1));
+                    }
+                    if (StringUtils.isNotBlank(rowString)) {
+                        fullMap.add(rowString.toString().trim());
+                    }
+                }
+            }
+        }
+
+        return fullMap;
+    }
+
     Tile getById(List<Tile> tiles, int id) {
         return tiles.stream().filter(t -> t.id == id).findFirst().get();
     }
 
-    class Tile {
+    public class Tile {
         int id;
         Set<Integer> neighbors = new HashSet<>();
         char[][] image;
-        boolean isFlipped = false;
-        int quarterTurns = 0;
 
         public Tile(int id, List<String> rows) {
             this.id = id;
@@ -177,16 +287,44 @@ public class Puzzle20 extends AbstractPuzzle {
         List<String> getFlippedEdges() {
             return getEdges().stream().map(e -> StringUtils.reverse(e)).collect(Collectors.toList());
         }
-        
-        void rotate(int times) {
-            char[][] rotated = image;
-            for(int t = 0; t < times; t++) {
-                for( int r = 0; r < image.length; r++) {
-                    for( int c = 0; c < image[r].length; c++) {
-                        
+
+        public void rotate(int times) {
+            int rows = image.length;
+            int cols = image[0].length;
+
+            for (int t = 0; t < times; t++) {
+                char[][] rotated = new char[rows][cols];
+                for (int r = 0; r < rows; r++) {
+                    for (int c = 0; c < cols; c++) {
+                        rotated[r][c] = image[cols - c - 1][r];
                     }
                 }
+                image = rotated;
             }
+        }
+
+        public void flip(boolean horizontal) {
+            int rows = image.length;
+
+            // flip -- axis
+            if (horizontal) {
+                for (int r = 0; r < rows / 2; r++) {
+                    char[] top = image[r];
+                    char[] bottom = image[rows - r - 1];
+                    image[r] = bottom;
+                    image[rows - r - 1] = top;
+                }
+            }
+            // flip | axis
+            else {
+                for (int r = 0; r < rows; r++) {
+                    image[r] = StringUtils.reverse(new String(image[r])).toCharArray();
+                }
+            }
+        }
+
+        public char[][] getImage() {
+            return image;
         }
 
         @Override
