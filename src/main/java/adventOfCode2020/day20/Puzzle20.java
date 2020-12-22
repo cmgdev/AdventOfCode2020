@@ -20,10 +20,6 @@ public class Puzzle20 extends AbstractPuzzle {
     public static final int BOTTOM = 2;
     public static final int LEFT = 3;
 
-    //                  # 
-    //#    ##    ##    ###
-    // #  #  #  #  #  #   
-
     String monsterLine1 = "(.|#){18}#(.|#){1}";
     String monsterLine2 = "#(.|#){4}##(.|#){4}##(.|#){4}###";
     String monsterLine3 = "(.|#){1}#(.|#){2}#(.|#){2}#(.|#){2}#(.|#){2}#(.|#){2}#(.|#){3}";
@@ -111,26 +107,26 @@ public class Puzzle20 extends AbstractPuzzle {
             for (int i = 0; i < 4; i++) {
                 String currentEdge = currentEdges.get(i);
                 List<String> neighborEdges = neighbor.getEdges();
-                if (neighborEdges.contains(currentEdge)) {
+                List<String> neighborFlippedEdges = neighbor.getFlippedEdges();
+                if (neighborEdges.contains(currentEdge) || neighborFlippedEdges.contains(currentEdge)) {
                     edgeIndexes.add(i);
                     break;
                 }
             }
         }
 
+//        System.out.println("summary of tiles");
+//        for (Tile t : tiles) {
+//            System.out.println("Tile " + t.id + ": " + t.neighbors.size() + " : " + t.neighbors);
+//        }
+
         int rotationsNeeded = 0;
-        if (edgeIndexes.size() == 2) {
-            List<Integer> neededIndexes = Arrays.asList(RIGHT, BOTTOM);
-            while (!edgeIndexes.containsAll(neededIndexes)) {
-                rotationsNeeded++;
-                for (int i = 0; i < edgeIndexes.size(); i++) {
-                    edgeIndexes.set(i, edgeIndexes.get(i) + 1);
-                }
+        List<Integer> neededIndexes = Arrays.asList(RIGHT, BOTTOM);
+        while (!edgeIndexes.containsAll(neededIndexes)) {
+            rotationsNeeded++;
+            for (int i = 0; i < edgeIndexes.size(); i++) {
+                edgeIndexes.set(i, edgeIndexes.get(i) + 1);
             }
-        }
-        else {
-            System.out.println("something went horribly wrong!!! there should be 2 indexes: " + edgeIndexes);
-            return 0;
         }
 
         current.rotate(rotationsNeeded);
@@ -141,7 +137,7 @@ public class Puzzle20 extends AbstractPuzzle {
             doRow(tiles, cornerIds, fullImage, row, current);
 
             System.out.println("Finished row " + row);
-            
+
             row++;
             // find the start of the next row
             Tile leftNextRow = findAndOrientNextTile(tiles, current, BOTTOM);
@@ -152,12 +148,17 @@ public class Puzzle20 extends AbstractPuzzle {
                 current = leftNextRow;
             }
         }
-        
+
         System.out.println("finished connecting tiles!");
-        printTilesWithEdges(fullImage, tiles);
+//        printTilesWithEdges(fullImage, tiles);
 
         // get map without edges and ids
         List<String> map = getMap(fullImage, tiles);
+        System.out.println("Finished map:");
+        for (String m : map) {
+            System.out.println(m);
+        }
+
         int monsters = 0;
         for (int i = 0; i <= 8; i++) {
             System.out.println("looking for monsters itr " + i);
@@ -167,7 +168,14 @@ public class Puzzle20 extends AbstractPuzzle {
                 String mapRow3 = map.get(r + 2);
                 for (int start = 0; start < mapRow1.length() - 20; start++) {
                     int end = start + 20;
-                    if (mapRow1.substring(start, end).matches(monsterLine1) && mapRow2.substring(start, end).matches(monsterLine2) && mapRow3.substring(start, end).matches(monsterLine3)) {
+                    String chunk1 = mapRow1.substring(start, end);
+                    String chunk2 = mapRow2.substring(start, end);
+                    String chunk3 = mapRow3.substring(start, end);
+                    boolean chunk1Matches = chunk1.matches(monsterLine1);
+                    boolean chunk2Matches = chunk2.matches(monsterLine2);
+                    boolean chunk3Matches = chunk3.matches(monsterLine3);
+
+                    if (chunk1Matches && chunk2Matches && chunk3Matches) {
                         monsters++;
                         start += 20;
                     }
@@ -176,13 +184,13 @@ public class Puzzle20 extends AbstractPuzzle {
             if (monsters > 0) {
                 break;
             }
-            if (i % 2 == 0) {
-                map = rotateMap(map);
-            } else {
+            if (i % 4 == 0) {
                 map = flipMap(map);
+            } else {
+                map = rotateMap(map);
             }
         }
-        
+
         int waves = 0;
         for (String m : map) {
             waves += StringUtils.countMatches(m, "#");
