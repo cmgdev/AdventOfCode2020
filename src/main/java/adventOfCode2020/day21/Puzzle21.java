@@ -7,12 +7,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import adventOfCode2020.base.AbstractPuzzle;
 
 public class Puzzle21 extends AbstractPuzzle {
 
     long answer1;
+    String answer2;
 
     public Puzzle21(boolean isTest) {
         super(isTest);
@@ -26,8 +28,7 @@ public class Puzzle21 extends AbstractPuzzle {
 
     @Override
     public Object solve2() {
-        // TODO Auto-generated method stub
-        return null;
+        return answer2;
     }
 
     public void solvePuzzle() {
@@ -72,7 +73,32 @@ public class Puzzle21 extends AbstractPuzzle {
                 }
             }
         }
-        
-        System.out.println(allergensToRecipes);
+
+        Map<String, List<String>> reduced = new HashMap<>();
+        for (Map.Entry<String, List<Set<String>>> allergenRecipes : allergensToRecipes.entrySet()) {
+            reduced.put(allergenRecipes.getKey(), new ArrayList<>(allergenRecipes.getValue().get(0)));
+        }
+
+        long countSinglesStart = 0;
+        long countSinglesEnd = countSinglesStart + 1;
+        do {
+            countSinglesStart = reduced.values().stream().filter(s -> s.size() == 1).count();
+
+            for (Map.Entry<String, List<String>> entry : reduced.entrySet()) {
+                if (entry.getValue().size() == 1) {
+                    for (Map.Entry<String, List<String>> entry2 : reduced.entrySet()) {
+                        if (entry2.getValue().size() > 1) {
+                            entry2.getValue().remove(entry.getValue().get(0));
+                        }
+                    }
+                }
+            }
+
+            countSinglesEnd = reduced.values().stream().filter(s -> s.size() == 1).count();
+        } while (countSinglesStart < countSinglesEnd);
+
+        List<String> keys = new ArrayList<>(reduced.keySet());
+        answer2 = keys.stream().sorted().map(k -> reduced.get(k).get(0)).collect(Collectors.joining(","));
     }
+
 }

@@ -1,5 +1,6 @@
 package adventOfCode2020.day21;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
@@ -42,9 +43,9 @@ public class Puzzle21Test {
     private void assertSolve2(boolean isExampleData) {
         AbstractPuzzle puzzle = isExampleData ? puzzleExampleData : puzzleRealData;
         Object answerObj = puzzle.solve2();
-        long answer = (Long) answerObj;
-        long expected = puzzle.getExpectedAnswer2();
-        assertTrue("Expected " + expected + " but got " + answer, answer == expected);
+        String answer = (String) answerObj;
+        String expected = puzzle.getExpectedAnswer2String();
+        assertEquals(expected, answer);
     }
 
 }
