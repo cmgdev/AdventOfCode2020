@@ -78,16 +78,50 @@ public class Puzzle17 extends AbstractPuzzle {
         }
     }
 
-    public void expandHyperCube(Map<FourDPoint, Character> hypercube) {
-        IntSummaryStatistics zStats = hypercube.keySet().stream().mapToInt(p -> p.z).summaryStatistics();
-        IntSummaryStatistics wStats = hypercube.keySet().stream().mapToInt(p -> p.w).summaryStatistics();
-        IntSummaryStatistics rStats = hypercube.keySet().stream().mapToInt(p -> p.row).summaryStatistics();
-        IntSummaryStatistics cStats = hypercube.keySet().stream().mapToInt(p -> p.col).summaryStatistics();
+    public int[][] getDimMinMax(Map<FourDPoint, Character> hypercube) {
+        int minActiveZ = Integer.MAX_VALUE;
+        int minActiveW = Integer.MAX_VALUE;
+        int minActiveR = Integer.MAX_VALUE;
+        int minActiveC = Integer.MAX_VALUE;
+        int maxActiveZ = Integer.MIN_VALUE;
+        int maxActiveW = Integer.MIN_VALUE;
+        int maxActiveR = Integer.MIN_VALUE;
+        int maxActiveC = Integer.MIN_VALUE;
 
-        for (int z = zStats.getMin() - 1; z <= zStats.getMax() + 1; z++) {
-            for (int w = wStats.getMin() - 1; w <= wStats.getMax() + 1; w++) {
-                for (int r = rStats.getMin() - 1; r <= rStats.getMax() + 1; r++) {
-                    for (int c = cStats.getMin() - 1; c <= cStats.getMax() + 1; c++) {
+        for (Map.Entry<FourDPoint, Character> entry : hypercube.entrySet()) {
+            if (entry.getValue() == ACTIVE) {
+                FourDPoint point = entry.getKey();
+                minActiveZ = Math.min(point.z, minActiveZ);
+                minActiveW = Math.min(point.w, minActiveW);
+                minActiveR = Math.min(point.row, minActiveR);
+                minActiveC = Math.min(point.col, minActiveC);
+
+                maxActiveZ = Math.max(point.z, maxActiveZ);
+                maxActiveW = Math.max(point.w, maxActiveW);
+                maxActiveR = Math.max(point.row, maxActiveR);
+                maxActiveC = Math.max(point.col, maxActiveC);
+            }
+        }
+
+        return new int[][] { new int[] { minActiveZ, minActiveW, minActiveR, minActiveC }, new int[] { maxActiveZ, maxActiveW, maxActiveR, maxActiveC } };
+    }
+
+    public void expandHyperCube(Map<FourDPoint, Character> hypercube) {
+        int[][] dims = getDimMinMax(hypercube);
+
+        int minActiveZ = dims[0][0];
+        int minActiveW = dims[0][1];
+        int minActiveR = dims[0][2];
+        int minActiveC = dims[0][3];
+        int maxActiveZ = dims[1][0];
+        int maxActiveW = dims[1][1];
+        int maxActiveR = dims[1][2];
+        int maxActiveC = dims[1][3];
+
+        for (int z = minActiveZ - 1; z <= maxActiveZ + 1; z++) {
+            for (int w = minActiveW - 1; w <= maxActiveW + 1; w++) {
+                for (int r = minActiveR - 1; r <= maxActiveR + 1; r++) {
+                    for (int c = minActiveC - 1; c <= maxActiveC + 1; c++) {
                         getCharAtHyperPoint(hypercube, z, w, r, c);
                     }
                 }
@@ -114,17 +148,23 @@ public class Puzzle17 extends AbstractPuzzle {
     }
 
     public void printHyperCube(Map<FourDPoint, Character> hypercube, int cycleNum) {
-        IntSummaryStatistics zStats = hypercube.keySet().stream().mapToInt(p -> p.z).summaryStatistics();
-        IntSummaryStatistics wStats = hypercube.keySet().stream().mapToInt(p -> p.w).summaryStatistics();
-        IntSummaryStatistics rStats = hypercube.keySet().stream().mapToInt(p -> p.row).summaryStatistics();
-        IntSummaryStatistics cStats = hypercube.keySet().stream().mapToInt(p -> p.col).summaryStatistics();
+        int[][] dims = getDimMinMax(hypercube);
+
+        int minActiveZ = dims[0][0];
+        int minActiveW = dims[0][1];
+        int minActiveR = dims[0][2];
+        int minActiveC = dims[0][3];
+        int maxActiveZ = dims[1][0];
+        int maxActiveW = dims[1][1];
+        int maxActiveR = dims[1][2];
+        int maxActiveC = dims[1][3];
 
         System.out.println("After " + cycleNum + " cycles");
-        for (int z = zStats.getMin(); z <= zStats.getMax(); z++) {
-            for (int w = wStats.getMin(); w <= wStats.getMax(); w++) {
+        for (int z = minActiveZ; z <= maxActiveZ; z++) {
+            for (int w = minActiveW; w <= maxActiveW; w++) {
                 System.out.println("z=" + z + ", w=" + w);
-                for (int r = rStats.getMin(); r <= rStats.getMax(); r++) {
-                    for (int c = cStats.getMin(); c <= cStats.getMax(); c++) {
+                for (int r = minActiveR; r <= maxActiveR; r++) {
+                    for (int c = minActiveC; c <= maxActiveC; c++) {
                         Character content = getCharAtHyperPoint(hypercube, z, w, r, c);
                         System.out.print(content);
                     }
@@ -165,7 +205,7 @@ public class Puzzle17 extends AbstractPuzzle {
         }
 
         int cycleNum = 0;
-        printHyperCube(hypercube, cycleNum);
+//        printHyperCube(hypercube, cycleNum);
 
         while (cycleNum < 6) {
             cycleNum++;
@@ -192,7 +232,7 @@ public class Puzzle17 extends AbstractPuzzle {
 
         }
 
-        printHyperCube(hypercube, cycleNum);
+        // printHyperCube(hypercube, cycleNum);
         return hypercube.values().stream().filter(c -> c == ACTIVE).count();
     }
 
