@@ -1,9 +1,13 @@
 package adventOfCode2020.day24;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import adventOfCode2020.base.AbstractPuzzle;
 
@@ -19,23 +23,16 @@ public class Puzzle24 extends AbstractPuzzle {
     @Override
     public Object solve1() {
         List<String> input = getInput();
-        List<List<String>> directions = new ArrayList<>();
+        List<List<String>> directions = getDirections(input);
 
-        for (String in : input) {
-            List<String> d = new ArrayList<>();
-            for (int i = 0; i < in.length(); i++) {
-                char c = in.charAt(i);
-                if (c == 'e' || c == 'w') {
-                    d.add(String.valueOf(c));
-                } else {
-                    i++;
-                    char c2 = in.charAt(i);
-                    d.add(new String(new char[] { c, c2 }));
-                }
-            }
-            directions.add(d);
-        }
+        Map<Point, String> hexGrid = initGridWithDirections(directions);
 
+        long count = hexGrid.values().stream().filter(s -> s.equals(BLACK)).count();
+
+        return String.valueOf(count);
+    }
+
+    protected Map<Point, String> initGridWithDirections(List<List<String>> directions) {
         Map<Point, String> hexGrid = new HashMap<>();
         Point center = new Point(0, 0);
         hexGrid.put(center, WHITE);
@@ -59,6 +56,10 @@ public class Puzzle24 extends AbstractPuzzle {
                 } else if (dir.equals("nw")) {
                     current = new Point(current.r - 1, current.c - 1);
                 }
+
+                if (!hexGrid.containsKey(current)) {
+                    hexGrid.put(current, WHITE);
+                }
             }
             if (hexGrid.containsKey(current)) {
                 String currentColor = hexGrid.get(current);
@@ -68,17 +69,120 @@ public class Puzzle24 extends AbstractPuzzle {
                 hexGrid.put(current, BLACK);
             }
         }
+        return hexGrid;
+    }
 
-//        System.out.println(hexGrid);
+    protected List<List<String>> getDirections(List<String> input) {
+        List<List<String>> directions = new ArrayList<>();
+
+        for (String in : input) {
+            List<String> d = new ArrayList<>();
+            for (int i = 0; i < in.length(); i++) {
+                char c = in.charAt(i);
+                if (c == 'e' || c == 'w') {
+                    d.add(String.valueOf(c));
+                } else {
+                    i++;
+                    char c2 = in.charAt(i);
+                    d.add(new String(new char[] { c, c2 }));
+                }
+            }
+            directions.add(d);
+        }
+        return directions;
+    }
+
+    @Override
+    public Object solve2() {
+        List<String> input = getInput();
+        List<List<String>> directions = getDirections(input);
+
+        Map<Point, String> hexGrid = initGridWithDirections(directions);
+        hexGrid = fillGridGaps(hexGrid);
+
+//        Any black tile with zero or more than 2 black tiles immediately adjacent to it is flipped to white.
+//        Any white tile with exactly 2 black tiles immediately adjacent to it is flipped to black.
+
+        for (int i = 0; i < 100; i++) {
+            List<Point> whiteTiles = new ArrayList<>();
+            List<Point> blackTiles = new ArrayList<>();
+            Set<Entry<Point, String>> tilesAtStart = new HashSet<>(hexGrid.entrySet());
+            for (Map.Entry<Point, String> tile : tilesAtStart) {
+                int countAdjacentBlackTiles = countAdjacentBlackTiles(hexGrid, tile.getKey());
+                if (tile.getValue().equals(BLACK)) {
+                    if (countAdjacentBlackTiles == 0 || countAdjacentBlackTiles > 2) {
+                        whiteTiles.add(tile.getKey());
+                    } else
+                        blackTiles.add(tile.getKey());
+                } else if (tile.getValue().equals(WHITE)) {
+                    if (countAdjacentBlackTiles == 2) {
+                        blackTiles.add(tile.getKey());
+                    } else {
+                        whiteTiles.add(tile.getKey());
+                    }
+                }
+            }
+
+            for (Point p : whiteTiles) {
+                hexGrid.put(p, WHITE);
+            }
+            for (Point p : blackTiles) {
+                hexGrid.put(p, BLACK);
+            }
+
+            System.out.println("day " + (i + 1) + ": " + hexGrid.values().stream().filter(s -> s.equals(BLACK)).count());
+        }
+
         long count = hexGrid.values().stream().filter(s -> s.equals(BLACK)).count();
 
         return String.valueOf(count);
     }
 
-    @Override
-    public Object solve2() {
-        // TODO Auto-generated method stub
-        return null;
+    protected int countAdjacentBlackTiles(Map<Point, String> hexGrid, Point point) {
+        int count = 0;
+
+        List<Point> adjacentPoints = Arrays.asList(new Point(point.r, point.c + 1), new Point(point.r, point.c - 1), new Point(point.r + 1, point.c + 1), new Point(point.r + 1, point.c), new Point(point.r - 1, point.c), new Point(point.r - 1, point.c - 1));
+        for (Point p : adjacentPoints) {
+            if (hexGrid.containsKey(p)) {
+                count += hexGrid.get(p).equals(BLACK) ? 1 : 0;
+            } else {
+                hexGrid.put(p, WHITE);
+            }
+        }
+
+        return count;
+    }
+
+    protected Map<Point, String> fillGridGaps(Map<Point, String> hexGrid) {
+        int[][] minMax = getMinMax(hexGrid);
+        int minR = minMax[0][0];
+        int minC = minMax[0][1];
+        int maxR = minMax[1][0];
+        int maxC = minMax[1][1];
+
+        for (int r = minR - 1; r < maxR + 1; r++) {
+            for (int c = minC - 1; c < maxC + 1; c++) {
+                Point current = new Point(r, c);
+                String color = hexGrid.getOrDefault(current, WHITE);
+                hexGrid.put(current, color);
+            }
+        }
+        return hexGrid;
+    }
+
+    public int[][] getMinMax(Map<Point, String> hexGrid) {
+        int minR = Integer.MAX_VALUE;
+        int minC = Integer.MAX_VALUE;
+        int maxR = Integer.MIN_VALUE;
+        int maxC = Integer.MIN_VALUE;
+
+        for (Point p : hexGrid.keySet()) {
+            minR = Math.min(minR, p.r);
+            minC = Math.min(minC, p.c);
+            maxR = Math.max(maxR, p.r);
+            maxC = Math.max(maxC, p.c);
+        }
+        return new int[][] { new int[] { minR, minC }, new int[] { maxR, maxC } };
     }
 
     class Point {

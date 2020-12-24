@@ -30,7 +30,7 @@ public class Puzzle24Test {
     public void testSolve2_realData() {
         assertSolve2(false);
     }
-
+    
     private void assertSolve1(boolean isExampleData) {
         AbstractPuzzle puzzle = isExampleData ? puzzleExampleData : puzzleRealData;
         Object answerObj = puzzle.solve1();
